@@ -8,7 +8,7 @@
 
 <div class="d-flex justify-content-between mb-4">
   <div class="col-md border-start">
-    <h1 class="h2 ps-4">Formulário de Categoria</h1>
+    <h1 class="h2 ps-4">Formulário de Categoria {{currenctAction}}</h1>
   </div>
 
   <div>
@@ -16,18 +16,18 @@
   </div>
 </div>
 
-<form>
+<form [formGroup]="categoryForm">
   <div class="card">
     <div class="card-header">
       Informações sobre a categoria
     </div>
     <div class="card-body">
-      <div class="form-row">
+      <div class="form-row d-flex gap-4">
         <div class="form-group col-md-3">
           <label for="name">Nome</label>
           <input id="name" type="text" class="form-control">
         </div>
-        <div class="form-group col-md-9">
+        <div class="form-group col-md-8">
           <label for="description">Descrição</label>
           <input id="description" type="text" class="form-control">
         </div>
