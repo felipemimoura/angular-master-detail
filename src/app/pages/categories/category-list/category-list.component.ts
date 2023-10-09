@@ -11,23 +11,23 @@ export class CategoryListComponent implements OnInit {
   categories: Category[] = [];
   constructor(private categoryService: CategoryService) {}
   ngOnInit(): void {
-    this.categoryService.getAll().subscribe(
-      (categories) => (this.categories = categories),
-      (error) => alert('Error ao carregar a lista')
-    );
+    this.categoryService.getAll().subscribe({
+      next: (categories) => (this.categories = categories),
+      error: (error) => alert('Error ao carregar a lista'),
+    });
   }
 
   deleteCategory(category: any) {
     const mustDele = confirm('Deseja Realmente excluir esse item?');
 
     if (mustDele) {
-      this.categoryService.delete(category.id).subscribe(
-        () =>
+      this.categoryService.delete(category.id).subscribe({
+        next: () =>
           (this.categories = this.categories.filter(
-            (elemet) => elemet != category
+            (element) => element != category
           )),
-        () => alert('Error ao tentar excluir')
-      );
+        error: () => alert('Error ao tentar excluir'),
+      });
     }
   }
 }

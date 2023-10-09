@@ -1,1 +1,51 @@
-<p>category-form works!</p>
+<nav class="mb-5">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+    <li class="breadcrumb-item"><a routerLink="/categories">Categorias</a></li>
+    <li class="breadcrumb-item active">Formulário de categorias</li>
+  </ol>
+</nav>
+
+<div class="d-flex justify-content-between mb-4">
+  <div class="col-md border-start">
+    <h1 class="h2 ps-4">Formulário de Categoria {{currenctAction}}</h1>
+  </div>
+
+  <div>
+    <a routerLink="/categories" class="btn btn-light  float-right">Voltar</a>
+  </div>
+</div>
+
+<form [formGroup]="categoryForm" (submit)="submitForm()">
+  <div class="card">
+    <div class="card-header">
+      Informações sobre a categoria
+    </div>
+    <div class="card-body">
+      <div class="form-row d-flex gap-4">
+        <div class="form-group col-md-3">
+          <label for="name">Nome</label>
+          <input id="name" type="text" formControlName="name" class="form-control">
+
+          <div class="text-danger" *ngIf="categoryForm.get('name')?.invalid && categoryForm.get('name')?.touched">
+            <div *ngIf="categoryForm.get('name')?.hasError('required')">Dado obrigatório</div>
+            <div *ngIf="categoryForm.get('name')?.hasError('minLength')">Minimo dois caracteres</div>
+          </div>
+        </div>
+        <div class="form-group col-md-8">
+          <label for="description">Descrição</label>
+          <input id="description" type="text" formControlName="description" class="form-control">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="alert alert-danger mt-4" *ngIf="serverErrorMessage">
+    <strong>Error no Servidor</strong>
+    <ul>
+      <li *ngFor="let error of serverErrorMessage">{{error}}</li>
+    </ul>
+  </div>
+
+  <button [disabled]="submittingForm || categoryForm.invalid" type="submit" class="btn btn-primary btn-lg float-right mt-3">Salvar</button>
+</form>
