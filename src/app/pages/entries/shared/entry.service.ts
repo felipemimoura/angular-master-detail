@@ -13,7 +13,7 @@ export class EntryService {
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<Entry[]> {
-    console.log('nova requisição')
+    console.log('nova requisição');
     return this.http
       .get(this.apiPath)
       .pipe(catchError(this.handleError), map(this.jsonDataToEntries));
@@ -33,30 +33,37 @@ export class EntryService {
       .pipe(catchError(this.handleError), map(this.jsonDataToEntry));
   }
 
-  update(entry: Entry): Observable<Entry>{
+  update(entry: Entry): Observable<Entry> {
     const url = `${this.apiPath}/${entry.id}`;
-    return this.http
-    .put(url, entry)
-    .pipe(catchError(this.handleError), map(() => entry));
+    return this.http.put(url, entry).pipe(
+      catchError(this.handleError),
+      map(() => entry)
+    );
   }
 
-  delete(id: number): Observable<any>{
+  delete(id: number): Observable<any> {
     const url = `${this.apiPath}/${id}`;
 
-    return this.http.delete(url).pipe(catchError(this.handleError), map(() => null))
+    return this.http.delete(url).pipe(
+      catchError(this.handleError),
+      map(() => null)
+    );
   }
 
   // Private Methods
   private jsonDataToEntries(jsonData: any[]): Entry[] {
     const entries: Entry[] = [];
 
-    jsonData.forEach((element) => entries.push(element as Entry));
+    jsonData.forEach((element) => {
+      const entry = Object.assign(new Entry(), element);
+      entries.push(entry);
+    });
 
     return entries;
   }
 
   private jsonDataToEntry(jsonData: any): Entry {
-    return jsonData as Entry;
+    return Object.assign(new Entry(), jsonData);
   }
   private handleError(error: any): Observable<any> {
     console.log('Error na requisicao', error);
