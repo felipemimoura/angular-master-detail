@@ -12,7 +12,9 @@ export class EntryListComponent implements OnInit {
   constructor(private entryService: EntryService) {}
   ngOnInit(): void {
     this.entryService.getAll().subscribe({
-      next: (entries) => (this.entries = entries),
+      next: (entries) => {
+        this.entries = entries.sort((a, b) => b.id! - a.id!);
+      },
       error: (error) => alert('Error ao carregar a lista'),
     });
   }
@@ -23,9 +25,7 @@ export class EntryListComponent implements OnInit {
     if (mustDele) {
       this.entryService.delete(entry.id).subscribe({
         next: () =>
-          (this.entries = this.entries.filter(
-            (element) => element != entry
-          )),
+          (this.entries = this.entries.filter((element) => element != entry)),
         error: () => alert('Error ao tentar excluir'),
       });
     }
